@@ -1,65 +1,8 @@
-# -Step-3.1-Exercise
-azfar rahman 
-using different algorithm :XGBoost Model Performance
-# Import necessary libraries
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, classification_report
-from xgboost import XGBClassifier  # Ensure XGBoost is installed
-
-# Load the dataset
-file_path = '/kaggle/input/positive-and-negative-test-cases/Labelled_Test_Cases.csv'  # Update with your file path
-# Load the dataset with appropriate encoding
-reviews_df = pd.read_csv(file_path, encoding='latin1')
-
-# Drop unnecessary columns (if any)
-reviews_df = reviews_df.drop(columns=['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], errors='ignore')
-
-# Map labels in 'v1' to numeric values (e.g., 'Neg' -> 0, 'Pos' -> 1)
-label_mapping = {'Neg': 0, 'Pos': 1}
-reviews_df['v1'] = reviews_df['v1'].map(label_mapping)
-
-# Prepare data for training and testing
-X = reviews_df['v2']  # Text data
-y = reviews_df['v1']  # Labels
-
-# Ensure no missing data in X or y
-X = X.dropna()
-y = y[X.index]
-
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Define the XGBoost pipeline
-xgboost_pipeline = Pipeline([
-    ('vectorizer', CountVectorizer()),
-    ('transformer', TfidfTransformer()),
-    ('classifier', XGBClassifier(use_label_encoder=False, eval_metric='logloss'))
-])
-
-# Train the XGBoost model
-xgboost_pipeline.fit(X_train, y_train)
-
-# Predict and evaluate performance
-y_pred_xgb = xgboost_pipeline.predict(X_test)
-xgboost_accuracy = accuracy_score(y_test, y_pred_xgb)
-xgboost_report = classification_report(y_test, y_pred_xgb)
-
-# Display results
-print("XGBoost Model Performance")
-print(f"Accuracy: {xgboost_accuracy}")
-print("Classification Report:")
-print(xgboost_report)
-
-# Save results to a CSV file
-results = pd.DataFrame({
-    "Metric": ["Accuracy"],
-    "XGBoost": [xgboost_accuracy]
-})
-results.to_csv('xgboost_results.csv', index=False)
-print("Results saved to 'xgboost_results.csv'")
+# 3.1-Exercise
+#azfar rahman 
+#using different algorithm :XGBoost Model Performance
+![image](https://github.com/user-attachments/assets/fe454982-152c-4488-8e2a-25a3b73ae0a0)
+![image](https://github.com/user-attachments/assets/32f0e7a3-2a04-4055-bcc4-195639ff5972)
 ![image](https://github.com/user-attachments/assets/8db8ef0a-0c4f-43e8-bef5-7efaccfc12f4)
 
 from the 5 modal 
